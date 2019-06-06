@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: api/v1.js</title>
+    <title>JSDoc: Source: middleware/404.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: api/v1.js</h1>
+    <h1 class="page-title">Source: middleware/404.js</h1>
 
     
 
@@ -29,79 +29,17 @@
             <pre class="prettyprint source linenums"><code>'use strict';
 
 /**
- * API Router Module (V1)
- * Integrates with various models through a common Interface (.get(), .post(), .put(), .delete())
- * @module src/api/v1
+ * @module 404-Error
+ * @param {object} req - request object
+ * @param {object} res - response object
+ * @param {object} next - goes to next piece of middleware
+ * @descr
  */
 
-const cwd = process.cwd();
-
-const express = require('express');
-
-const modelFinder = require(`${cwd}/src/middleware/model-finder.js`);
-
-const swaggerUi = require('swagger-ui-express');
-// const swag = require('../../docs/config/swagger.json');
-
-const router = express.Router();
-
-
-// router.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swag));
-
-// Evaluate the model, dynamically
-router.param('model', modelFinder);
-
-
-// API Routes
-router.get('/api/v1/:model', handleGetAll);
-router.post('/api/v1/:model', handlePost);
-
-router.get('/api/v1/:model/:id', handleGetOne);
-router.put('/api/v1/:model/:id', handlePut);
-router.delete('/api/v1/:model/:id', handleDelete);
-
-// Route Handlers
-
-
-function handleGetAll(request,response,next) {
-  request.model.get()
-    .then( data => {
-      const output = {
-        count: data.length,
-        results: data,
-      };
-      response.status(200).json(output);
-    })
-    .catch( next );
-}
-
-function handleGetOne(request,response,next) {
-  request.model.get(request.params.id)
-    .then( result => response.status(200).json(result[0]) )
-    .catch( next );
-}
-
-
-function handlePost(request,response,next) {
-  request.model.post(request.body)
-    .then( result => response.status(200).json(result) )
-    .catch( next );
-}
-
-
-function handlePut(request,response,next) {
-  request.model.put(request.params.id, request.body)
-    .then( result => response.status(200).json(result) )
-    .catch( next );
-}
-
-function handleDelete(request,response,next) {
-  request.model.delete(request.params.id)
-    .then( result => response.status(200).json(result) )
-    .catch( next );
-}
-
-module.exports = router;
+module.exports = (req,res,next) => {
+  let error = { error: 'Resource Not Found' };
+  res.status(404).json(error).end();
+};
 </code></pre>
         </article>
     </section>

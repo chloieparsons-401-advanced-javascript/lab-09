@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: api/v1.js</title>
+    <title>JSDoc: Source: models/mongo-model.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: api/v1.js</h1>
+    <h1 class="page-title">Source: models/mongo-model.js</h1>
 
     
 
@@ -29,79 +29,71 @@
             <pre class="prettyprint source linenums"><code>'use strict';
 
 /**
- * API Router Module (V1)
- * Integrates with various models through a common Interface (.get(), .post(), .put(), .delete())
- * @module src/api/v1
+ * @Class Mongo Model 
+ * @desc extends to players &amp; team models using Mongo
  */
+class Model {
 
-const cwd = process.cwd();
+  /**
+   * Model constructor takes in schema
+   * @param {players/teams} schema 
+   */
+  constructor(schema) {
+    this.schema = schema;
+  }
 
-const express = require('express');
+  /**
+   * Gets a record based on ID
+   * Then returns record's data
+   * @method get
+   * @param {integer} _id 
+   * @desc
+   */
+  get(_id) {
+    let queryObject = _id ? {_id} : {};
+    return this.schema.find(queryObject);
+  }
 
-const modelFinder = require(`${cwd}/src/middleware/model-finder.js`);
+  /**
+   * Posts a new record
+   * @method post
+   * @param {*} record
+   * @desc
+   */
+  post(record) {
+    let newRecord = new this.schema(record);
+    return newRecord.save();
+  }
 
-const swaggerUi = require('swagger-ui-express');
-// const swag = require('../../docs/config/swagger.json');
+  /**
+   * Updates a record based on its id
+   * @method put
+   * @param {integer} _id 
+   * @param {string} record 
+   * 
+   * Updates record data
+   * @desc
+   */
+  put(_id, record) {
+    return this.schema.findByIdAndUpdate(_id, record, {new:true});
+  }
 
-const router = express.Router();
+  /**
+   * Deletes record based on ID
+   * @method delete
+   * @param {integer} _id 
+   * 
+   * Deletes record
+   * @desc
+   */
 
+  delete(_id) {
+    return this.schema.findByIdAndDelete(_id);
+  }
 
-// router.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swag));
-
-// Evaluate the model, dynamically
-router.param('model', modelFinder);
-
-
-// API Routes
-router.get('/api/v1/:model', handleGetAll);
-router.post('/api/v1/:model', handlePost);
-
-router.get('/api/v1/:model/:id', handleGetOne);
-router.put('/api/v1/:model/:id', handlePut);
-router.delete('/api/v1/:model/:id', handleDelete);
-
-// Route Handlers
-
-
-function handleGetAll(request,response,next) {
-  request.model.get()
-    .then( data => {
-      const output = {
-        count: data.length,
-        results: data,
-      };
-      response.status(200).json(output);
-    })
-    .catch( next );
 }
 
-function handleGetOne(request,response,next) {
-  request.model.get(request.params.id)
-    .then( result => response.status(200).json(result[0]) )
-    .catch( next );
-}
-
-
-function handlePost(request,response,next) {
-  request.model.post(request.body)
-    .then( result => response.status(200).json(result) )
-    .catch( next );
-}
-
-
-function handlePut(request,response,next) {
-  request.model.put(request.params.id, request.body)
-    .then( result => response.status(200).json(result) )
-    .catch( next );
-}
-
-function handleDelete(request,response,next) {
-  request.model.delete(request.params.id)
-    .then( result => response.status(200).json(result) )
-    .catch( next );
-}
-
-module.exports = router;
+module.exports = Model;
 </code></pre>
         </article>
     </section>

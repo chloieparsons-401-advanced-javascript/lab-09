@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: api/v1.js</title>
+    <title>JSDoc: Source: models/teams/teams-model.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: api/v1.js</h1>
+    <h1 class="page-title">Source: models/teams/teams-model.js</h1>
 
     
 
@@ -28,80 +28,18 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
 
+const Model = require('../mongo-model.js');
+const schema = require('./teams-schema.js');
+
 /**
- * API Router Module (V1)
- * Integrates with various models through a common Interface (.get(), .post(), .put(), .delete())
- * @module src/api/v1
+ * @Class Teams Model
+ * @descr
  */
 
-const cwd = process.cwd();
+class Teams extends Model {}
 
-const express = require('express');
+module.exports = new Teams(schema);
 
-const modelFinder = require(`${cwd}/src/middleware/model-finder.js`);
-
-const swaggerUi = require('swagger-ui-express');
-// const swag = require('../../docs/config/swagger.json');
-
-const router = express.Router();
-
-
-// router.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swag));
-
-// Evaluate the model, dynamically
-router.param('model', modelFinder);
-
-
-// API Routes
-router.get('/api/v1/:model', handleGetAll);
-router.post('/api/v1/:model', handlePost);
-
-router.get('/api/v1/:model/:id', handleGetOne);
-router.put('/api/v1/:model/:id', handlePut);
-router.delete('/api/v1/:model/:id', handleDelete);
-
-// Route Handlers
-
-
-function handleGetAll(request,response,next) {
-  request.model.get()
-    .then( data => {
-      const output = {
-        count: data.length,
-        results: data,
-      };
-      response.status(200).json(output);
-    })
-    .catch( next );
-}
-
-function handleGetOne(request,response,next) {
-  request.model.get(request.params.id)
-    .then( result => response.status(200).json(result[0]) )
-    .catch( next );
-}
-
-
-function handlePost(request,response,next) {
-  request.model.post(request.body)
-    .then( result => response.status(200).json(result) )
-    .catch( next );
-}
-
-
-function handlePut(request,response,next) {
-  request.model.put(request.params.id, request.body)
-    .then( result => response.status(200).json(result) )
-    .catch( next );
-}
-
-function handleDelete(request,response,next) {
-  request.model.delete(request.params.id)
-    .then( result => response.status(200).json(result) )
-    .catch( next );
-}
-
-module.exports = router;
 </code></pre>
         </article>
     </section>

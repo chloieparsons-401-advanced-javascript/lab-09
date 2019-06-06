@@ -7,6 +7,11 @@ const schema = {
   name: {required:true},
 };
 
+/**
+ * @Class Categories
+ * @descr
+ */
+
 class Categories extends Model {}
 
 module.exports = new Categories(schema);
