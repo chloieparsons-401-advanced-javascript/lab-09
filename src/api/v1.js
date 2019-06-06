@@ -25,11 +25,55 @@ router.param('model', modelFinder);
 
 
 // API Routes
+
+/**
+ * Get a list of records for model provided
+ * @route GET /{model}
+ * @param {string} model.path.required - Resource model name
+ * @returns {Object} 500 - Server error
+ * @returns {Object} 200 - { count: 2, results: [{}, {}]}
+ */
 router.get('/api/v1/:model', handleGetAll);
+
+/**
+ * Creates a list of records for model provided
+ * @route POST /{model}
+ * @param {string} model.path.required - Resource model name
+ * @consumes application/json application/xml
+ * @returns {Object} 500 - Server error
+ * @returns {Object} 200 - { count: 2, results: [{}, {}]}
+ */
 router.post('/api/v1/:model', handlePost);
 
+/**
+ * Get a list of records for model id provided
+ * @route GET /{model}/{id}
+ * @param {string} model.path.required - Resource model name
+ * @param {number} id.path.required - Resource model name
+ * @returns {Object} 500 - Server error
+ * @returns {Object} 200 - { count: 2, results: [{}, {}]}
+ */
 router.get('/api/v1/:model/:id', handleGetOne);
+
+/**
+ * Modifies of records for model provided
+ * @route PUT /{model}/{id}
+ * @param {string} model.path.required - Resource model name
+ * @param {number} id.path.required - Resource model name
+ * @consumes
+ * @returns {Object} 500 - Server error
+ * @returns {Object} 200 - { count: 2, results: [{}, {}]}
+ */
 router.put('/api/v1/:model/:id', handlePut);
+
+/**
+ * Deletes records for model provided
+ * @route DELETE /{model}/{id}
+ * @param {string} model.path.required - Resource model name
+ * @param {number} id.path.required - Resource model name
+ * @returns {Object} 500 - Server error
+ * @returns {Object} 200 - { count: 2, results: [{}, {}]}
+ */
 router.delete('/api/v1/:model/:id', handleDelete);
 
 // Route Handlers
