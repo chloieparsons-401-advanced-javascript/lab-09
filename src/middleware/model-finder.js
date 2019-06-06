@@ -2,6 +2,11 @@
 
 /**
  * @module model-finder
+ * 
+ */
+ 
+/**
+ * This finds the model that acts as the interface
  * @param {object} req - request object
  * @param {object} res - response object
  * @param {object} next - goes to next piece of middleware

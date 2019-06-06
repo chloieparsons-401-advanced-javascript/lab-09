@@ -2,6 +2,10 @@
 
 /**
  * @module 404-Error
+ */
+
+/**
+ *  Handles 404 Error Response
  * @param {object} req - request object
  * @param {object} res - response object
  * @param {object} next - goes to next piece of middleware
