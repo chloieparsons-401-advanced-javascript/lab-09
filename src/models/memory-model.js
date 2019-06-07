@@ -93,7 +93,7 @@ class Model {
     return this.get(id);
   }
 
-   /**
+  /**
    * Updates a record based on its id
    * @method put
    * @param {integer} _id 
