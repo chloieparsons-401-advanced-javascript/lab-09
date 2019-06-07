@@ -4,8 +4,8 @@ Classes, Inheritance, Functional Programming
 Author: Chloie Parsons
 
 # Links and Resources
-* Submission PR: 
-* Travis: 
+* Submission PR: https://github.com/chloieparsons-401-advanced-javascript/lab-09/pull/2
+* Travis: https://www.travis-ci.com/chloieparsons-401-advanced-javascript/lab-09
 * Heroku: https://polar-ridge-33131.herokuapp.com/
 
 # Documentation
